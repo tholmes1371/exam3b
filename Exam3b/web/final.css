@@ -1,0 +1,236 @@
+/*Fat Erik's Pipelist*/
+/*http://css.maxdesign.com.au/listamatic/horizontal32.htm */
+
+.navcontainer { 
+    margin-left: 30px; 
+    text-align: left;
+}
+
+.navlist
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navlist li
+{
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+.navlist li:before { content: "| "; }
+.navlist li:first-child:before { content: ""; }
+
+/*IE workaround*/
+/*All IE browsers*/
+* html .navlist li
+{
+    border-left: 1px solid black;
+    padding: 0 0.4em 0 0.4em;
+    margin: 0 0.4em 0 -0.4em;
+}
+
+/*Win IE browsers - hide from Mac IE\*/
+* html .navlist { height: 1%; }
+
+* html .navlist li
+{
+    display: block;
+    float: left;
+}
+
+/*End hide*/
+/*Mac IE 5*/
+* html .navlist li:first-child { border-left: 0; }
+
+/*formats footer*/
+.footer{
+
+    text-align: center;
+    padding: 25px;
+    
+}
+
+/*formats main content*/
+.main{
+
+    text-align: left;
+    padding: 25px;
+    
+}
+
+/*end menu css */
+
+/*wrapper div that holds everything*/
+.wrap{
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid black;
+    margin-top: 25 px;
+    background-clip: brown;
+
+}
+
+/*formats header of the page*/
+.page-header{
+
+    text-align: left;
+    padding: 25px;
+    
+}
+.headerImg{
+    
+    width: 150px;
+
+}
+
+.headerText{
+    float:left;
+    height: 105px;
+    padding-top: 50px;
+    padding-left: 25px;
+}
+
+
+/* jumbotron */
+.header-bg {
+      width:100%;
+      height:350px;
+      background: url("./includes/Clouds.JPG");
+      background-size:cover;
+    }
+
+    .jumbotron {
+      color: white;
+      text-shadow: black 0.3em 0.3em 0.3em;
+      background: transparent;
+    }
+    
+ /* bootstrap wrapper */
+ 
+ .wrapper {
+  .make-row();
+  padding: 20px;
+}
+.content-main {
+  .make-lg-column(8);
+  padding: 10px;
+}
+.content-secondary {
+  .make-lg-column(3);
+  .make-lg-column-offset(1);
+}
+
+h1{
+    font-size: 25px;
+    font-family: "Impact";
+    padding-top: 30px;
+}
+
+h2{
+    font-size: 20px;
+    font-family: "Impact";
+    padding-top: 10px;  
+}
+h3{
+    font-size: 15px;
+    font-family: "Times New Roman";
+    padding-top: 10px; 
+    color: red;
+}
+
+hr {
+    background-color: lightsteelblue;
+    color: lightsteelblue;
+    border: solid 1px lightsteelblue;
+    height: 4px;
+   
+}
+
+planp {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 30px; 
+}
+
+.plans{
+    text-align:center;
+}
+
+
+
+#custom-bootstrap-menu.navbar-default .navbar-brand {
+    color: rgba(119, 119, 119, 1);
+}
+#custom-bootstrap-menu.navbar-default {
+    font-size: 14px;
+    background-color: rgba(248, 248, 248, 1);
+    border-width: 2px;
+    border-radius: 19px;
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a {
+    color: rgba(119, 119, 119, 1);
+    background-color: rgba(248, 248, 248, 0);
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(51, 51, 51, 1);
+    background-color: rgba(71, 60, 60, 0.29);
+}
+#custom-bootstrap-menu.navbar-default .navbar-nav>.active>a,
+#custom-bootstrap-menu.navbar-default .navbar-nav>.active>a:hover,
+#custom-bootstrap-menu.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(85, 85, 85, 1);
+    background-color: rgba(231, 231, 231, 1);
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle {
+    border-color: #ddd;
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle:hover,
+#custom-bootstrap-menu.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+#custom-bootstrap-menu.navbar-default .navbar-toggle:hover .icon-bar,
+#custom-bootstrap-menu.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #888;
+}
+
+.header-fixed {
+    width: 100% 
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 150px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 20%;
+    float: left;
+}
+
