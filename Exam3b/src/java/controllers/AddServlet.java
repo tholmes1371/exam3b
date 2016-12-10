@@ -5,8 +5,7 @@
  */
 package controllers;
 
-import dbhelpers.ReadQuery;
-
+import dbhelpers.AddQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -15,13 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customers;
 
 /**
  *
  * @author tholm
  */
-@WebServlet(name = "Read", urlPatterns = {"/read"})
-public class ReadServlet extends HttpServlet {
+@WebServlet(name = "AddServlet", urlPatterns = {"/add"})
+public class AddServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class ReadServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Read</title>");            
+            out.println("<title>Servlet AddServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Read at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +61,6 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         doPost(request, response);
     }
 
@@ -76,23 +75,36 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+      
         
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String addr1 = request.getParameter("addr1");
+        String addr2 = request.getParameter("addr2");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String zip = request.getParameter("zip");
+        String emailaddr = request.getParameter("email");
         
-        //create a ReadQuery helper object
-        ReadQuery rq = new ReadQuery();
+        Customers cust = new Customers();
         
+        cust.setFirstName(firstName);
+        cust.setLastName(lastName);
+        cust.setAddr1(addr2);
+        cust.setAddr2(addr2);
+        cust.setEmailaddr(emailaddr);
+        cust.setCity(city);
+        cust.setState(state);
+        cust.setZip(zip);
         
-        //get the HTML table from the ReadQuery object
-        rq.doRead();
-        String table = rq.getHTMLtable();
-        
-        //Pass execution control to read.jsp along with the table.
-        
-        request.setAttribute("table", table);
-//        String url = "/read.jsp";
-//        
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//        dispatcher.forward(request, response);
+        AddQuery aq = new AddQuery();
+        //pass player to addQuery to add to the database
+        aq.doAdd(cust);
+        //pass execution control to the ReadServlet
+        String url = "/dashboard.jsp";
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
         
     }
 

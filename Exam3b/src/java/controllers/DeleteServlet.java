@@ -5,8 +5,7 @@
  */
 package controllers;
 
-import dbhelpers.ReadQuery;
-
+import dbhelpers.DeleteQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tholm
  */
-@WebServlet(name = "Read", urlPatterns = {"/read"})
-public class ReadServlet extends HttpServlet {
+@WebServlet(name = "DeleteServlet", urlPatterns = {"/delete"})
+public class DeleteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class ReadServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Read</title>");            
+            out.println("<title>Servlet DeleteServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Read at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +60,6 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         doPost(request, response);
     }
 
@@ -76,24 +74,17 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        //create a ReadQuery helper object
-        ReadQuery rq = new ReadQuery();
-        
-        
-        //get the HTML table from the ReadQuery object
-        rq.doRead();
-        String table = rq.getHTMLtable();
-        
-        //Pass execution control to read.jsp along with the table.
-        
-        request.setAttribute("table", table);
-//        String url = "/read.jsp";
-//        
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//        dispatcher.forward(request, response);
-        
+
+        int custID = Integer.parseInt(request.getParameter("custID"));
+
+        DeleteQuery dq = new DeleteQuery();
+
+        dq.doDelete(custID);
+
+        String url = "/dashboard.jsp";
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
     }
 
     /**

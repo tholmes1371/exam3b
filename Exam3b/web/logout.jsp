@@ -19,21 +19,26 @@
             <%@include file="includes/menu.jsp" %> 
 
 
-            <div class="row">
+            <div class="row"> 
                 <div class="col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <center><h2>Full Contact List</h2></center>
+                    <!-- main content -->
+                    <div class="panel-default">
+                        <div style="height:40px;padding:0" class="panel-heading">
+                            <center>
+                                <h2>You have logged out. See you next time.</h2>
+
+                            </center>
+
                         </div>
-                        <table class="table table-bordered table-fixed table-hover">
-
-                            <jsp:include page="/read"/>
-                            <% String full = (String) request.getAttribute("table");%>
-                            <%= full%>  
-                        </table>
+                        
                     </div>
-                </div>
+                </div> 
+            </div>
 
+            <br>
+            <br>
+            <br>
+            <br>
 
             <br>
             <br>

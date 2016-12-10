@@ -5,8 +5,7 @@
  */
 package controllers;
 
-import dbhelpers.ReadQuery;
-
+import dbhelpers.ReadRecord;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -15,13 +14,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customers;
 
 /**
  *
  * @author tholm
  */
-@WebServlet(name = "Read", urlPatterns = {"/read"})
-public class ReadServlet extends HttpServlet {
+@WebServlet(name = "UpdateServlet", urlPatterns = {"/update"})
+public class UpdateFormServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class ReadServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Read</title>");            
+            out.println("<title>Servlet UpdateServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Read at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +61,6 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         doPost(request, response);
     }
 
@@ -76,24 +75,21 @@ public class ReadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        int custID = Integer.parseInt(request.getParameter("custID"));
         
-        
-        //create a ReadQuery helper object
-        ReadQuery rq = new ReadQuery();
-        
-        
-        //get the HTML table from the ReadQuery object
-        rq.doRead();
-        String table = rq.getHTMLtable();
-        
-        //Pass execution control to read.jsp along with the table.
-        
-        request.setAttribute("table", table);
-//        String url = "/read.jsp";
-//        
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//        dispatcher.forward(request, response);
-        
+        ReadRecord rr = new ReadRecord(custID);
+
+        rr.doRead();
+        Customers cust = rr.getCustomers();
+
+        request.setAttribute("Customers", cust);
+
+        String url = "/updateForm.jsp";
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
+
     }
 
     /**

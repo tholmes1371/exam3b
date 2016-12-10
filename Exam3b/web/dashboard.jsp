@@ -16,14 +16,15 @@
             <%@include file="includes/header.jsp"%>
 
 
-            <%@include file="includes/menu.jsp" %> 
+            <%@include file="includes/adminmenu.jsp" %> 
 
 
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <center><h2>Full Contact List</h2></center>
+                            <center><h2>Welcome Administrator</h2></center>
+                            
                         </div>
                         <table class="table table-bordered table-fixed table-hover">
 
