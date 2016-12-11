@@ -2,7 +2,7 @@
     <div class="col-sm-5 col-xs-12">
          
             
-                <img src="includes/cobra.png" height="150px" />
+                <img src="includes/logo.jpg" height="150px" />
            
        
     </div>
@@ -14,5 +14,7 @@
         </h1>
         
     </div>
-
+    
+    
 </div> <!-- close header -->
+<br>
