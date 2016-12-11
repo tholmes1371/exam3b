@@ -12,12 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customers;
 
-public class ReadQuery {
+public class UserSearchQuery {
 
     private Connection conn;
     private ResultSet results;
 
-    public ReadQuery() {
+    public UserSearchQuery() {
 
         try {
             Properties props = new Properties();
@@ -32,37 +32,58 @@ public class ReadQuery {
             try {
                 Class.forName(driver);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserSearchQuery.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 conn = DriverManager.getConnection(url, username, passwd);
             } catch (SQLException ex) {
-                Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserSearchQuery.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException ex) {
-            Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserSearchQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    public void doRead() {
+    public void doSearch(String firstName, String lastName) {
+        if (firstName.equals(lastName)) {
+            try {
+
+                String qfirst = "SELECT * from customers WHERE UPPER(firstName) LIKE ? or UPPER(lastName) LIKE ? ORDER BY custID ASC";
+
+                PreparedStatement ps = conn.prepareStatement(qfirst);
+                ps.setString(1, "%" + firstName.toUpperCase() + "%");
+                ps.setString(2, "%" + lastName.toUpperCase() + "%");
+
+                this.results = ps.executeQuery();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(UserSearchQuery.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        else{
 
         try {
-            String query = "Select * from customers ORDER by custID ASC";
+
+            String query = "SELECT * from customers WHERE UPPER(firstName) LIKE ? AND UPPER(lastName) LIKE ? ORDER BY custID ASC";
 
             PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + firstName.toUpperCase() + "%");
+            ps.setString(2, "%" + lastName.toUpperCase() + "%");
             this.results = ps.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserSearchQuery.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
     }
 
-    public String getHTMLtable() {
+     public String getHTMLtable() {
 
         String table = "";
 
         table += "<tr>";
-        table += "<th>Customer ID</th>";
+       
         table += "<th>First Name</th>";
         table += "<th>Last Name</th>";
         table += "<th>Addr1</th>";
@@ -71,11 +92,16 @@ public class ReadQuery {
         table += "<th>State</th>";
         table += "<th>Zip</th>";
         table += "<th>Email Address</th>";
-        table += "<th></th>";
-        table += "<th></th>";
+        
         table += "</tr>";
 
         try {
+            if (!this.results.isBeforeFirst()) {
+
+                table += "<tr>";
+                table += "<td colspan='11'><center>Sorry, this person does not exist in the database</center></td>";
+                table += "</tr>";
+            } else {
             while (this.results.next()) {
 
                 Customers cust = new Customers();
@@ -89,10 +115,7 @@ public class ReadQuery {
                 cust.setZip(this.results.getString("zip"));
                 cust.setEmailaddr(this.results.getString("emailaddr"));
 
-                table += "<tr>";
-                table += "<td>";
-                table += cust.getCustID();
-                table += "</td>";
+                
 
                 table += "<td>";
                 table += cust.getFirstName();
@@ -125,22 +148,68 @@ public class ReadQuery {
                 table += "<td>";
                 table += cust.getEmailaddr();
                 table += "</td>";
-
-                table += "<td>";
-                table += "<a href=update?custID=" + cust.getCustID() + "> Update </a>";
-                table += "</td>";
-
-                table += "<td>";
-                table += "<a href=delete?custID=" + cust.getCustID() + "> Delete </a>";
-                table += "</td>";
                 table += "</tr>";
 
+                
+
+            }
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return table;
+    }
+
+    public String getFirst(String name) {
+        String fullName = name;
+        String[] tokens = fullName.split(" ");
+        String firstName = "";
+        String middleName = "";
+        String lastName = "";
+        if (tokens.length > 0) {
+            firstName = tokens[0];
+            middleName = tokens.length > 2 ? getMiddleName(tokens) : "";
+            lastName = tokens[tokens.length - 1];
+        }
+        return firstName;
+    }
+
+    public String getLast(String name) {
+        String fullName = name;
+        String[] tokens = fullName.split(" ");
+        String firstName = "";
+        String middleName = "";
+        String lastName = "";
+        if (tokens.length > 0) {
+            firstName = tokens[0];
+            middleName = tokens.length > 2 ? getMiddleName(tokens) : "";
+            lastName = tokens[tokens.length - 1];
+        }
+        return lastName;
+    }
+
+    public String getMiddle(String name) {
+        String fullName = name;
+        String[] tokens = fullName.split(" ");
+        String firstName = "";
+        String middleName = "";
+        String lastName = "";
+        if (tokens.length > 0) {
+            firstName = tokens[0];
+            middleName = tokens.length > 2 ? getMiddleName(tokens) : "";
+            lastName = tokens[tokens.length - 1];
+        }
+        return middleName;
+    }
+
+    public String getMiddleName(String[] middleName) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i < middleName.length - 1; i++) {
+            builder.append(middleName[i] + " ");
+        }
+
+        return builder.toString();
     }
 
 }

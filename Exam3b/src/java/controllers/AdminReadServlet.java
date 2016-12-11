@@ -5,8 +5,8 @@
  */
 package controllers;
 
-import dbhelpers.SearchQuery;
-import dbhelpers.UserSearchQuery;
+import dbhelpers.ReadQuery;
+import dbhelpers.UserReadQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author tholm_000
+ * @author tholm
  */
-@WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
-public class SearchServlet extends HttpServlet {
+@WebServlet(name = "AdminReadServlet", urlPatterns = {"/adminread"})
+public class AdminReadServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class SearchServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");
+            out.println("<title>Servlet AdminReadServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminReadServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,28 +75,25 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //get text from search.jsp
-        String firstName, lastName, middleName;
-        String fullname = request.getParameter("searchVal");
-
-        //create SearchQuery helper object
-        UserSearchQuery sq = new UserSearchQuery();
-        firstName = sq.getFirst(fullname);
-        lastName = sq.getLast(fullname);
-        middleName = sq.getMiddle(fullname);
-        //get the HTML table from SearchQuery
-        sq.doSearch(firstName, lastName);
-        String table = sq.getHTMLtable();
+        
+        ReadQuery rq = new ReadQuery();
+        
+        
+        //get the HTML table from the ReadQuery object
+        rq.doRead();
+        String table = rq.getHTMLtable();
+        
         //Pass execution control to read.jsp along with the table.
-
+        
         request.setAttribute("table", table);
-        request.setAttribute("fullname", fullname);
-        String url = "/read.jsp";
-
+        String url = "/adminsearch.jsp";
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
-
+        
+        
+        
+        
     }
 
     /**

@@ -6,6 +6,7 @@
 package controllers;
 
 import dbhelpers.ReadQuery;
+import dbhelpers.UserReadQuery;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -79,7 +80,7 @@ public class ReadServlet extends HttpServlet {
         
         
         //create a ReadQuery helper object
-        ReadQuery rq = new ReadQuery();
+        UserReadQuery rq = new UserReadQuery();
         
         
         //get the HTML table from the ReadQuery object
@@ -89,10 +90,10 @@ public class ReadServlet extends HttpServlet {
         //Pass execution control to read.jsp along with the table.
         
         request.setAttribute("table", table);
-//        String url = "/read.jsp";
-//        
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//        dispatcher.forward(request, response);
+        String url = "/read.jsp";
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+        dispatcher.forward(request, response);
         
     }
 

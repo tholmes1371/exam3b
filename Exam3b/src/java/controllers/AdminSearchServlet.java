@@ -6,7 +6,6 @@
 package controllers;
 
 import dbhelpers.SearchQuery;
-import dbhelpers.UserSearchQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -18,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author tholm_000
+ * @author tholm
  */
-@WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
-public class SearchServlet extends HttpServlet {
+@WebServlet(name = "AdminSearchServlet", urlPatterns = {"/adminSearch"})
+public class AdminSearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class SearchServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchServlet</title>");
+            out.println("<title>Servlet AdminSearchServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminSearchServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,13 +74,12 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //get text from search.jsp
+        
         String firstName, lastName, middleName;
         String fullname = request.getParameter("searchVal");
 
         //create SearchQuery helper object
-        UserSearchQuery sq = new UserSearchQuery();
+        SearchQuery sq = new SearchQuery();
         firstName = sq.getFirst(fullname);
         lastName = sq.getLast(fullname);
         middleName = sq.getMiddle(fullname);
@@ -92,11 +90,13 @@ public class SearchServlet extends HttpServlet {
 
         request.setAttribute("table", table);
         request.setAttribute("fullname", fullname);
-        String url = "/read.jsp";
+        String url = "/adminsearch.jsp";
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
-
+        
+        
+        
     }
 
     /**

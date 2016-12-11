@@ -12,12 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customers;
 
-public class ReadQuery {
+public class UserReadQuery {
 
     private Connection conn;
     private ResultSet results;
 
-    public ReadQuery() {
+    public UserReadQuery() {
 
         try {
             Properties props = new Properties();
@@ -32,15 +32,15 @@ public class ReadQuery {
             try {
                 Class.forName(driver);
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserReadQuery.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 conn = DriverManager.getConnection(url, username, passwd);
             } catch (SQLException ex) {
-                Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserReadQuery.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException ex) {
-            Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserReadQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -48,12 +48,12 @@ public class ReadQuery {
     public void doRead() {
 
         try {
-            String query = "Select * from customers ORDER by custID ASC";
+            String query = "Select * from customers";
 
             PreparedStatement ps = conn.prepareStatement(query);
             this.results = ps.executeQuery();
         } catch (SQLException ex) {
-            Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserReadQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -62,7 +62,7 @@ public class ReadQuery {
         String table = "";
 
         table += "<tr>";
-        table += "<th>Customer ID</th>";
+        
         table += "<th>First Name</th>";
         table += "<th>Last Name</th>";
         table += "<th>Addr1</th>";
@@ -71,8 +71,7 @@ public class ReadQuery {
         table += "<th>State</th>";
         table += "<th>Zip</th>";
         table += "<th>Email Address</th>";
-        table += "<th></th>";
-        table += "<th></th>";
+        
         table += "</tr>";
 
         try {
@@ -89,10 +88,7 @@ public class ReadQuery {
                 cust.setZip(this.results.getString("zip"));
                 cust.setEmailaddr(this.results.getString("emailaddr"));
 
-                table += "<tr>";
-                table += "<td>";
-                table += cust.getCustID();
-                table += "</td>";
+                
 
                 table += "<td>";
                 table += cust.getFirstName();
@@ -125,19 +121,12 @@ public class ReadQuery {
                 table += "<td>";
                 table += cust.getEmailaddr();
                 table += "</td>";
-
-                table += "<td>";
-                table += "<a href=update?custID=" + cust.getCustID() + "> Update </a>";
-                table += "</td>";
-
-                table += "<td>";
-                table += "<a href=delete?custID=" + cust.getCustID() + "> Delete </a>";
-                table += "</td>";
                 table += "</tr>";
 
+                
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadQuery.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserReadQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return table;

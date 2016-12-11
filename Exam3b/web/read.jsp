@@ -27,7 +27,7 @@
                         </div>
                         <table class="table table-bordered table-fixed table-hover">
 
-                            <jsp:include page="/read"/>
+                            
                             <% String full = (String) request.getAttribute("table");%>
                             <%= full%>  
                         </table>

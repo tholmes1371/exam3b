@@ -90,7 +90,7 @@ public class AddServlet extends HttpServlet {
         
         cust.setFirstName(firstName);
         cust.setLastName(lastName);
-        cust.setAddr1(addr2);
+        cust.setAddr1(addr1);
         cust.setAddr2(addr2);
         cust.setEmailaddr(emailaddr);
         cust.setCity(city);
